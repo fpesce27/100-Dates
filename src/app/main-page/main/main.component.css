@@ -1,0 +1,53 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+
+  margin-left: 10px;
+}
+
+td, th {
+  width: 25%;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.demo-row-is-clicked {
+  background-color: greenyellow;
+}
+
+.agregarCita {
+  margin: 10px;
+}
+
+mat-paginator {
+  background-color: rgba(255,255,255,0);
+}
+
+
+.delete {
+  background-position: left bottom;
+  background: linear-gradient(to right, transparent 50%, rgba(255,100,100,.3) 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all 1.5s ease-out;
+}
+
+.complete {
+  background-position: left bottom;
+  background: linear-gradient(to right, transparent 50%, rgba(100,255,100,.3) 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all 1.5s ease-out;
+}
+
+.completado {
+  background-color: rgba(100,255,100,.3);
+}
+

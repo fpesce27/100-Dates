@@ -1,0 +1,79 @@
+<div class="body">
+  <div class="container" [ngClass]="panel ? 'right-panel-active' : '' " id="container"> <!-- Shows login or register panel -->
+    <div class="form-container sign-up-container"> <!-- Register panel -->
+      <form [formGroup]="form" (ngSubmit)="register()">
+        <h1>Create Account</h1>
+        <div>
+          <div> <!-- Email -->
+            <mat-form-field>
+              <input matInput placeholder="Email" formControlName="email">
+              <mat-error
+                *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="(form.get('email')?.errors?.pattern)">
+                Please enter a valid email address
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div> <!-- Password -->
+            <mat-form-field style="width: 90%">
+              <input matInput type="password" placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="!form.get('password')?.errors?.required">
+                Password length must be greater than or equal to 8 and password must contain one or more uppercase ,
+                lowercase , numeric and special characters
+              </mat-error>
+              <mat-error
+              *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched) && form.get('password')?.errors?.required">
+                Password is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div> <!-- Sign up -->
+            <button [disabled]="!form.valid" mat-raised-button color="primary" mat-button class="boton">Sign Up</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  <div class="form-container sign-in-container"> <!-- Login panel -->
+    <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+      <h1>Sign in</h1>
+      <div>
+        <div> <!-- Email -->
+          <mat-form-field>
+            <input matInput placeholder="Email" formControlName="email">
+          </mat-form-field>
+        </div>
+        <div> <!-- Password -->
+          <mat-form-field style="width: 90%">
+            <input matInput type="password" placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon></button>
+          </mat-form-field>
+        </div>
+        <a (click)="forgotPassword()">Forgot your password?</a> <!-- Forgot password -->
+        <div>
+          <button [disabled]="!loginForm.valid" mat-raised-button color="primary" mat-button class="boton">Sign In</button> <!-- Sign in -->
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="overlay-container"> <!-- Overlay panel -->
+    <div class="overlay">
+      <div class="overlay-panel overlay-left"> <!-- Panel while on login -->
+        <h1>Welcome Back!</h1>
+        <p>To keep connected with us please login with your personal info</p>
+        <button class="ghost" id="signIn" (click)="panel = !panel" mat-stroked-button>Sign In</button>
+      </div>
+      <div class="overlay-panel overlay-right"> <!-- Panel while on register -->
+        <h1>Hello, Friend!</h1>
+        <p>Enter your personal details and start journey with us</p>
+        <button class="ghost" id="signUp" (click)="panel = !panel" mat-stroked-button>Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Agregar Cita</h1>
+<div class="container">
+
+  <mat-form-field>
+
+    <mat-label>Nombre</mat-label>
+    <input matInput [(ngModel)]="data.name" [formControl]="nameFormControl">
+    <mat-error *ngIf="nameFormControl.hasError('required')">Ingresar el nombre de la cita</mat-error>
+
+  </mat-form-field>
+  <mat-form-field >
+
+    <mat-label>Horario</mat-label>
+    <mat-select [(ngModel)]="data.horario" [formControl]="horarioFormControl">
+      <mat-option value=0>Mañana</mat-option>
+      <mat-option value=1>Tarde</mat-option>
+      <mat-option value=2>Noche</mat-option>
+      <mat-option value=3>Indeterminado</mat-option>
+    </mat-select>
+    <mat-error *ngIf="horarioFormControl.hasError('required')">Ingresar el horario requerido de la cita</mat-error>
+
+  </mat-form-field>
+  <mat-form-field>
+
+    <mat-label>Planeación Previa?</mat-label>
+    <mat-select [(ngModel)]="data.planeacion_previa" [formControl]="planeacionFormControl">
+      <mat-option value="true">Si</mat-option>
+      <mat-option value="false">No</mat-option>
+    </mat-select>
+    <mat-error *ngIf="planeacionFormControl.hasError('required')">Ingresar si la cita requiere planeacion</mat-error>
+
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button cdkFocusInitial (click)="cancel()"> Cancel </button>
+  <button mat-button [disabled]="!nameFormControl.valid || !horarioFormControl.valid || !planeacionFormControl.valid" (click)="add()">Save</button>
+</div>

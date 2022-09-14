@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Esta seguro que desea eliminar la cita?</h1>
+<div mat-dialog-content>
+  <p>Esta acción no se puede deshacer.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button cdkFocusInitial (click)="cancel()"> Cancel </button>
+  <button mat-button color="warn" (click)="confirm()"> Confirmar </button>
+</div>

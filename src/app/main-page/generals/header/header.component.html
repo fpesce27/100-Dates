@@ -1,0 +1,7 @@
+<div class="container-fluid" style="padding:0px;">
+<mat-toolbar style="background-color: rgb(64, 49, 73); color:white; width: 100%;">
+  <span class="example-spacer">100 Citas</span>
+  <button mat-raised-button (click)="login()" *ngIf="!estaLogeado()">Login <mat-icon>login</mat-icon></button>
+  <button mat-raised-button (click)="logout()" *ngIf="estaLogeado()">Logout <mat-icon>logout</mat-icon></button>
+</mat-toolbar>
+</div>

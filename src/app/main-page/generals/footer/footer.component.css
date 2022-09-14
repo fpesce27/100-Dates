@@ -1,0 +1,5 @@
+mat-toolbar {
+  /* send it to the botom */
+  position: fixed;
+  bottom: 0;
+}

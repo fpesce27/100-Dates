@@ -1,0 +1,76 @@
+<app-header></app-header>
+<div class="container mt-5 asd">
+<div class="container">
+  <button mat-raised-button (click)="addRow()" class="agregarCita" style="background-color: rgb(64, 49, 73); color: rgba(255,255,255,.8)">
+    Agregar Cita
+  </button>
+  <button mat-raised-button (click)="randomDate()" class="agregarCita" style="background-color: rgb(64, 49, 73); color: rgba(255,255,255,.8)">
+    Seleccionar una cita random
+  </button>
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input >
+  </mat-form-field>
+
+</div>
+
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort style="background-color: rgba(255,255,255,.00);">
+
+    <ng-container matColumnDef="dateNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+      <td mat-cell *matCellDef="let element; let i = index;" >
+        {{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+    </ng-container>
+
+    <!-- Horario Column -->
+    <ng-container matColumnDef="horario">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Horario </th>
+      <td mat-cell *matCellDef="let row"> {{row.horario}} </td>
+    </ng-container>
+
+    <!-- Planeacion Column -->
+    <ng-container matColumnDef="planeacion_previa">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Planeacion previa? </th>
+      <td mat-cell *matCellDef="let row"> {{row.planeacion_previa}} </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef > Actions </th>
+      <td mat-cell *matCellDef="let row">
+        <div class="container d-flex">
+        <button mat-icon-button holdable (holdTime)="completed($event, row)" (mouseup)="completado = false" (mouseleave)="completado = false" style="color:greenyellow">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button mat-icon-button (click)="editRow(row)" color="primary">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button type="button" mat-icon-button holdable (holdTime)="deleteRow($event, row)" (mouseup)="row.delete = false" (mouseleave)="row.delete = false" color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'delete': row.delete }" [ngClass]="{'complete' : row.completed}"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4"></td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+</div>
+

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "citas-85ff9": {
+      "hosting": {
+        "Frontend": [
+          "citas-85ff9"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "citas-85ff9"
+  }
+}
