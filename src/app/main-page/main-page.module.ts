@@ -9,11 +9,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BackgroundComponent } from '../background/background.component';
 import { HoldableDirective } from './holdable.directive';
+import { CargandoComponent } from './main/cargando/cargando.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
-    MainComponent, EditDialogComponent, DeleteDialogComponent, AddDialogComponent, RandomDialogComponent,
-    HoldableDirective
+    MainComponent, EditDialogComponent, DeleteDialogComponent, AddDialogComponent, RandomDialogComponent, HoldableDirective, CargandoComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +23,11 @@ import { HoldableDirective } from './holdable.directive';
     MaterialModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Ng2SearchPipeModule
+  ],
+  exports: [
+    CargandoComponent
   ]
 })
 export class MainPageModule { }

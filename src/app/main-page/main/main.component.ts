@@ -6,25 +6,29 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { LoginServiceService } from 'src/app/login/login-service.service';
+import { CargandoServiceService } from './cargando/cargando-service.service';
 import { ApiServiceService } from './extras/api-service.service';
 import { Date } from './extras/date';
 
 @Component({
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit{
 
+  datosObtenidos : Date[];
   getData(user_id : string){
+    this.cargandoService.requestStarted();
     this.api.datesGet(user_id).subscribe((data: any) => {
       if (data != null){
-      //convert data to array
-      let key = Object.keys(data);
-      data = Object.values(data);
-      // add key as an id in data
-      for (let i = 0; i < data.length; i++) {
+        //convert data to array
+        let key = Object.keys(data);
+        data = Object.values(data);
+        // add key as an id in data
+        for (let i = 0; i < data.length; i++) {
         data[i].id = key[i];
       }
+      this.datosObtenidos = data;
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -32,8 +36,9 @@ export class MainComponent implements OnInit{
     else{
       this.dataSource = new MatTableDataSource();
     }
-    });
-  }
+    this.cargandoService.requestEnded();
+  });
+}
 
   displayedColumns: string[] = ['dateNumber','name', 'horario', 'planeacion_previa', 'actions'];
   dataSource : MatTableDataSource<Date>;
@@ -50,17 +55,24 @@ export class MainComponent implements OnInit{
     private api : ApiServiceService,
     private loginService : LoginServiceService,
     private router : Router,
-    private cdr: ChangeDetectorRef
+    private cargandoService : CargandoServiceService
   ) {
-    this.user_id = this.loginService.getUserUid();
-    this.getData(this.user_id);
+    try {
+      this.user_id = this.loginService.getUserUid();
+      this.getData(this.user_id);
 
-    this.logged = this.loginService.isLoged() ? true : false;
-    if (this.logged == false){
+      this.logged = this.loginService.isLoged() ? true : false;
+      if (this.logged == false){
+        this.router.navigate(['/login']);
+        this.cargandoService.resetCargador();
+      }
+    } catch (error) {
       this.router.navigate(['/login']);
+      this.cargandoService.resetCargador();
     }
   }
   ngOnInit(): void {
+
   }
 
   applyFilter(event: Event) {
@@ -115,8 +127,8 @@ export class MainComponent implements OnInit{
   }
 
   deleteRow(e : any, row : any) {
+    row.delete = true
     this.progress = e / 10;
-    row.delete = true;
     if (this.progress > 150) {
       this.api.dateDelete(row.id, this.user_id).subscribe((data: any) => {});
       this.dataSource.data.splice(row.id, 1);
@@ -128,7 +140,7 @@ export class MainComponent implements OnInit{
   }
 
   addRow(){
-    const dialogRef = this.dialog.open(AddDialogComponent, {data : {name : "", horario : "", planeacion_previa : ""}});
+    const dialogRef = this.dialog.open(AddDialogComponent, {data : {name : "", horario : "", planeacion_previa : "", completed : false}});
 
     dialogRef.afterClosed().subscribe(result => {
 
@@ -171,13 +183,14 @@ export class MainComponent implements OnInit{
   }
 
   completed(e : any, row : any){
-    this.progress = e / 10;
     row.completed = true;
+    this.progress = e / 10;
     if (this.progress > 150){
-      
+      row.completed = true;
+      this.api.datePut(row, row.id, this.user_id).subscribe((data: any) => {});
       this.progress = 0;
-      this.api.datePut(row, row.id, this.user_id).subscribe((data: any) => {return});
     }
+    row.completed = false;
   }
 }
 

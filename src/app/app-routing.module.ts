@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {path : 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule)},
-  {path : '', loadChildren: () => import('./main-page/main-page.module').then(m => m.MainPageModule)}
+  {path : '', loadChildren: () => import('./main-page/main-page.module').then(m => m.MainPageModule)},
+  {path : '**', redirectTo: ''}
 ];
 
 @NgModule({
